@@ -2,10 +2,9 @@ package handlers
 
 import (
 	"fmt"
-	"github.com/qingconglaixueit/wechatbot/config"
-	"github.com/qingconglaixueit/wechatbot/pkg/logger"
 	"github.com/eatmoreapple/openwechat"
 	"github.com/patrickmn/go-cache"
+	"github.com/qingconglaixueit/wechatbot/config"
 	"github.com/skip2/go-qrcode"
 	"log"
 	"runtime"
@@ -48,19 +47,21 @@ func NewHandler() (msgFunc func(msg *openwechat.Message), err error) {
 		return message.IsSendByGroup()
 	}, GroupMessageContextHandler())
 
-	// 好友申请
-	dispatcher.RegisterHandler(func(message *openwechat.Message) bool {
-		return message.IsFriendAdd()
-	}, func(ctx *openwechat.MessageContext) {
-		msg := ctx.Message
-		if config.LoadConfig().AutoPass {
-			_, err := msg.Agree("")
-			if err != nil {
-				logger.Warning(fmt.Sprintf("add friend agree error : %v", err))
-				return
+	/*
+		// 好友申请
+		dispatcher.RegisterHandler(func(message *openwechat.Message) bool {
+			return message.IsFriendAdd()
+		}, func(ctx *openwechat.MessageContext) {
+			msg := ctx.Message
+			if config.LoadConfig().AutoPass {
+				_, err := msg.Agree("")
+				if err != nil {
+					logger.Warning(fmt.Sprintf("add friend agree error : %v", err))
+					return
+				}
 			}
-		}
-	})
+		})
+	*/
 
 	// 私聊
 	// 获取用户消息处理器
